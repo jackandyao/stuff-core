@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: axion:axion:1.0-M3-dev">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/axion/axion/1.0-M3-dev/axion-1.0-M3-dev.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/axion/axion/1.0-M3-dev/axion-1.0-M3-dev-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/axion/axion/1.0-M3-dev/axion-1.0-M3-dev-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

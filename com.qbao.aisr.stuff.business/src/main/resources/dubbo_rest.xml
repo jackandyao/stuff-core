@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <context:component-scan base-package="com.qbao.aisr.stuff.business.alimama" />
+    <!-- 具体的实现bean -->
+    <bean id="businessRestFacade" class="com.qbao.aisr.stuff.business.alimama.rest.BusinessRestFacade" />
+
+    <!-- 用rest协议在21771端口暴露服务 -->
+    <dubbo:protocol name="rest" port="9955"></dubbo:protocol>
+    <!-- 要暴露的服务接口 -->
+    <dubbo:service interface="com.qbao.aisr.stuff.business.alimama.rest.IBusinessRestFacade" ref="businessRestFacade"
+                   timeout="20000" retries="0"/>
+    <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+    <dubbo:application name="business_app" />
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry address="${zoo.addr}"></dubbo:registry>
+    <!-- 开启监控策略 -->
+    <!--<dubbo:monitor protocol="registry" />-->
+    <!--     导入依赖配置文件   -->
+    <import resource="classpath*:spring_config.xml"/>
+    <import resource="classpath*:spring_repository.xml"/>
+</beans>

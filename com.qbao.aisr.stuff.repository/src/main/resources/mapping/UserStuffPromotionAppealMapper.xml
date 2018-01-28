@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qbao.aisr.stuff.repository.mybatis.dao.UserStuffPromotionAppealDao">
+    <resultMap type="UserStuffPromotionAppeal" id="UserStuffPromotionAppealMap">
+        <result column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="order_id" property="orderId" />
+        <result column="source" property="source"/>
+        <result column="rebate_value" property="rebateValue" />
+        <result column="is_pay" property="isPay"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+
+    <update id="batchUpdateIsPayStatus" parameterType="com.qbao.aisr.stuff.model.mysql.UserStuffPromotionAppeal" >
+        update user_stuff_promotion_appeal set is_pay=#{status}
+        <where>
+        <choose>
+            <when test="ids!=null and ids.size()>0">
+                and `id` in
+                <foreach item="ids" collection="ids" open="(" separator="," close=")">
+                    #{ids}
+                </foreach>
+            </when>
+            <otherwise>
+                and 1!=1
+            </otherwise>
+        </choose>
+       </where>
+    </update>
+
+</mapper>

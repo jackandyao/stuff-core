@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qbao.aisr.stuff.repository.mybatis.dao.UserStuffPromotionDao">
+    <resultMap type="UserStuffPromotion" id="UserStuffPromotionMap">
+        <result column="id" property="id" />
+        <result column="user_id" property="userId"/>
+        <result column="stuff_promotion_id" property="stuffPromotionId"/>
+        <result column="real_stuff_id" property="realStuffId"/>
+        <result column="order_id" property="orderId" />
+        <result column="source" property="source"/>
+        <result column="return_coupon_status" property="returnCouponStatus" />
+        <result column="rebate_value" property="rebateValue" />
+        <result column="order_time" property="orderTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
+        <result column="price" property="price"/>
+        <result column="rebate_type" property="rebateType"/>
+    </resultMap>
+
+    <insert id="saveUserStuffPromo" parameterType="com.qbao.aisr.stuff.model.mysql.UserStuffPromotion">
+        insert into
+        user_stuff_promotion (user_id,order_id,source,create_time,update_time,status)
+        value
+        (#{promotion.userId},#{promotion.orderId},#{promotion.source},#{promotion.createTime},#{promotion.updateTime},#{promotion.status})
+    </insert>
+
+    <update id="update" parameterType="com.qbao.aisr.stuff.model.mysql.UserStuffPromotion" >
+        update user_stuff_promotion
+        <trim prefix="set" suffixOverrides=",">
+            <if test="returnCouponStatus!=-1">return_coupon_status=#{returnCouponStatus},</if>
+            <if test="rebateValue!=0">rebate_value=#{rebateValue},</if>
+            <if test="price!=0">price=#{price},</if>
+            <if test="orderTime!=null">order_time=#{orderTime},</if>
+            <if test="updateTime!=null">update_time=#{updateTime},</if>
+            <if test="status!=0">status=#{status},</if>
+            <if test="rebateType!=null">rebate_type=#{rebateType}</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!--<select id="queryByReturnCouponStatus" resultType="com.qbao.aisr.stuff.model.mysql.UserStuffPromotion">-->
+        <!--select * FROM  user_stuff_promotion where  return_coupon_status = #{status}  limit #{offset}, #{limit}-->
+    <!--</select>-->
+
+    <!--<select id="queryTotalByReturnCouponStatus" resultType="long">-->
+        <!--select count(*) from user_stuff_promotion where return_coupon_status = #{status}-->
+    <!--</select>-->
+
+    <update id="batchUpdateReturnCouponStatus" parameterType="com.qbao.aisr.stuff.model.mysql.UserStuffPromotion" >
+        update user_stuff_promotion set return_coupon_status=#{status}
+        <where>
+        <choose>
+            <when test="ids!=null and ids.size()>0">
+                and `id` in
+                <foreach item="ids" collection="ids" open="(" separator="," close=")">
+                    #{ids}
+                </foreach>
+            </when>
+            <otherwise>
+                and 1!=1
+            </otherwise>
+        </choose>
+       </where>
+    </update>
+
+</mapper>

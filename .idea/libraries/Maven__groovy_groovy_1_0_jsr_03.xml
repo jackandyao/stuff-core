@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: groovy:groovy:1.0-jsr-03">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/groovy/groovy/1.0-jsr-03/groovy-1.0-jsr-03.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/groovy/groovy/1.0-jsr-03/groovy-1.0-jsr-03-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/groovy/groovy/1.0-jsr-03/groovy-1.0-jsr-03-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

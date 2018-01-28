@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qbao.aisr.stuff.repository.mybatis.dao.StuffCouponDao">
+    <resultMap type="StuffCoupon" id="StuffCouponMap">
+        <result column="id" property="id"/>
+        <result column="stuff_id" property="stuffId"/>
+        <result column="real_stuff_id" property="realStuffId"/>
+        <result column="link" property="link"/>
+        <result column="value" property="value"/>
+        <result column="introduce" property="introduce"/>
+        <result column="type" property="type"/>
+        <result column="total_count" property="totalCount"/>
+        <result column="source" property="source"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+    
+    
+      <insert id="insertBatch" parameterType="java.util.List">
+        insert stuff_coupon_${name} ( stuff_id,real_stuff_id, link,value,introduce,type,total_count, source,start_time,end_time) values
+        <foreach collection="list" item="item" index="index" separator="," >
+            ( #{item.stuffId} , #{item.realStuffId},#{item.link},#{item.value},#{item.introduce},#{item.type},#{item.totalCount},#{item.source},#{item.startTime},#{item.endTime})
+        </foreach>
+    </insert>
+</mapper>

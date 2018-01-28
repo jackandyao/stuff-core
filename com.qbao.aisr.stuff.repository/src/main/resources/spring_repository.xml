@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
+       default-lazy-init="true">
+
+    <context:component-scan base-package="com.qbao.aisr.stuff.repository" />
+    <import resource="classpath*:spring_config.xml"/>
+
+    <!-- redis 相关配置开始 -->
+    <!-- redis pool配置 -->
+    <bean name="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig" >
+        <property name="maxWaitMillis" value="-1" />
+        <property name="maxTotal" value="1000" />
+        <property name="minIdle" value="8" />
+        <property name="maxIdle" value="100" />
+    </bean>
+
+    <bean id="jedisCluster" class="com.qbao.aisr.stuff.repository.redis.common.JedisClusterFactory">
+        <property name="addressConfig">
+            <value>classpath:redis.properties</value>
+        </property>
+        <property name="addressKeyPrefix" value="redis.cluster" />   <!--  属性文件里  key的前缀 -->
+        <property name="timeout" value="30000" />
+        <property name="maxRedirections" value="6" />
+        <property name="genericObjectPoolConfig" ref="genericObjectPoolConfig" />
+    </bean>
+    <!-- redis 相关配置结束-->
+
+    <!-- mybatis 相关配置开始 -->
+    <!--  stuffMasterDataSource -->
+    <bean id="stuffMasterDataSource" class="com.zaxxer.hikari.HikariDataSource"
+          destroy-method="close">
+        <constructor-arg ref="stuffMasterHikariConfig" />
+    </bean>
+    <bean id="stuffMasterHikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="poolName" value="springHikariCP" />
+        <property name="driverClassName" value="${datasource.driverClassName}" />
+        <property name="jdbcUrl" value="${stuff_master.datasource.url}" />
+        <property name="username" value="${stuff_master.datasource.username}" />
+        <property name="password" value="${stuff_master.datasource.password}" />
+        <property name="minimumIdle" value="${datasource.min-idle}" />
+        <property name="maximumPoolSize" value="${datasource.max-active}" />
+        <property name="connectionInitSql" value="set names utf8" />
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="cachePrepStmts">true</prop>
+                <prop key="prepStmtCacheSize">250</prop>
+                <prop key="prepStmtCacheSqlLimit">2048</prop>
+                <prop key="useServerPrepStmts">true</prop>
+                <prop key="characterEncoding">utf8</prop>
+                <prop key="useUnicode">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+
+    <!--  apocalypseSlaveDataSource -->
+    <bean id="stuffSlaveDataSource" class="com.zaxxer.hikari.HikariDataSource"
+          destroy-method="close">
+        <constructor-arg ref="stuffSlaveHikariConfig" />
+    </bean>
+    <bean id="stuffSlaveHikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="poolName" value="springHikariCP" />
+        <property name="driverClassName" value="${datasource.driverClassName}" />
+        <property name="jdbcUrl" value="${stuff_slave.datasource.url}" />
+        <property name="username" value="${stuff_slave.datasource.username}" />
+        <property name="password" value="${stuff_slave.datasource.password}" />
+        <property name="minimumIdle" value="${datasource.min-idle}" />
+        <property name="maximumPoolSize" value="${datasource.max-active}" />
+        <property name="connectionInitSql" value="set names utf8" />
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="cachePrepStmts">true</prop>
+                <prop key="prepStmtCacheSize">250</prop>
+                <prop key="prepStmtCacheSqlLimit">2048</prop>
+                <prop key="useServerPrepStmts">true</prop>
+                <prop key="characterEncoding">utf8</prop>
+                <prop key="useUnicode">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!-- 多数据源datasource -->
+    <bean id="multipleDataSource" class="com.qbao.aisr.stuff.repository.mybatis.datasource.MultipleDataSource">
+        <property name="defaultTargetDataSource" ref="stuffMasterDataSource"/>
+        <property name="targetDataSources">
+            <map>
+                <entry key="apocalypseMasterDataSource" value-ref="stuffMasterDataSource"/>
+                <entry key="apocalypseSlaveDataSource" value-ref="stuffSlaveDataSource"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置数据库注解aop -->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <bean id="manyDataSourceAspect" class="com.qbao.aisr.stuff.repository.mybatis.datasource.DataSourceAspect" />
+    <aop:config>
+        <aop:aspect id="c" ref="manyDataSourceAspect">
+            <aop:pointcut id="tx" expression="execution(* com.qbao.aisr.stuff.repository.mybatis.dao.*.*(..))"/>
+            <aop:before pointcut-ref="tx" method="before"/>
+        </aop:aspect>
+    </aop:config>
+    <!-- 配置数据库注解aop -->
+
+    <!-- 配置sqlSessionFactory -->
+    <bean id="multipleSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
+        <property name="dataSource" ref="multipleDataSource" />
+        <property name="typeAliasesPackage" value="com.qbao.aisr.stuff.model" />
+        <property name="mapperLocations" value="classpath:mapping/*.xml" />
+    </bean>
+    <!-- 配置扫描器 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 扫描包以及它的子包下的所有映射接口类 -->
+        <property name="basePackage" value="com.qbao.aisr.stuff.repository.mybatis.dao" />
+        <property name="sqlSessionFactoryBeanName" value="multipleSqlSessionFactory" />
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="txManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="multipleDataSource" />
+    </bean>
+    <!-- 采用@Transactional注解方式来使用事务 -->
+    <tx:annotation-driven transaction-manager="txManager" />
+
+    <!-- mybatis 相关配置结束 -->
+
+    <!-- redis catch注解aop -->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <aop:config>
+        <aop:aspect id="redisAspects" ref="redisCacheAspect">
+            <aop:around method="doAround" pointcut="@annotation(com.qbao.aisr.stuff.repository.redis.cache.annotation.RedisCache)" />
+        </aop:aspect>
+    </aop:config>
+
+
+    <bean id="tbkConfigure" class="com.qbao.aisr.stuff.repository.restful.tbk.TBKConfigure">
+        <property name="tb_appkey" value="${tbk.appkey}"/>
+        <property name="tb_appsecret" value="${tbk.appsecret}"/>
+    </bean>
+
+
+</beans>

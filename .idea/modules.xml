@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.alarm/com.qbao.aisr.stuff.alarm.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.alarm/com.qbao.aisr.stuff.alarm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.business/com.qbao.aisr.stuff.business.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.business/com.qbao.aisr.stuff.business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.common/com.qbao.aisr.stuff.common.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.common/com.qbao.aisr.stuff.common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.config/com.qbao.aisr.stuff.config.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.config/com.qbao.aisr.stuff.config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.crawler/com.qbao.aisr.stuff.crawler.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.crawler/com.qbao.aisr.stuff.crawler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.kafka/com.qbao.aisr.stuff.kafka.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.kafka/com.qbao.aisr.stuff.kafka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.model/com.qbao.aisr.stuff.model.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.model/com.qbao.aisr.stuff.model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.pay/com.qbao.aisr.stuff.pay.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.pay/com.qbao.aisr.stuff.pay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.repository/com.qbao.aisr.stuff.repository.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.repository/com.qbao.aisr.stuff.repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com.qbao.aisr.stuff.util/com.qbao.aisr.stuff.util.iml" filepath="$PROJECT_DIR$/com.qbao.aisr.stuff.util/com.qbao.aisr.stuff.util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stuff-core.iml" filepath="$PROJECT_DIR$/stuff-core.iml" />
+    </modules>
+  </component>
+</project>

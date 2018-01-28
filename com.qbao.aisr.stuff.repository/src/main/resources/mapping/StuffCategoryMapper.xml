@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qbao.aisr.stuff.repository.mybatis.dao.StuffCategoryDao">
+    <resultMap type="StuffCategory" id="StuffCategoryMap">
+        <result column="id" property="id" />
+        <result column="cat_id" property="catId" />
+        <result column="pid" property="pid" />
+        <result column="main_cat_id" property="mainCatId" />
+        <result column="cat_name" property="catName" />
+        <result column="lev" property="lev" />
+        <result column="icon" property="icon" />
+        <result column="sort" property="sort" />
+        <result column="valid_flag" property="validFlag" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qbao.aisr.stuff.repository.mybatis.dao.StuffPromotionTmpDao">
+    <resultMap type="StuffPromotion" id="StuffPromotionMap">
+        <result column="id" property="id" />
+        <result column="real_stuff_id" property="realStuffId" />
+        <result column="name" property="name" />
+        <result column="final_price" property="finalPrice" />
+        <result column="reserve_price" property="reservePrice" />
+        <result column="rebate_id" property="rebateId" />
+        <result column="img_url" property="imgUrl" />
+        <result column="url" property="url" />
+        <result column="pc_promotion_url" property="pcPromotionUrl" />
+        <result column="android_promotion_url" property="androidPromotionUrl" />
+        <result column="ios_promotion_url" property="iosPromotionUrl" />
+        <result column="promotion_rate" property="promotionRate" />
+        <result column="cat_id" property="catId" />
+        <result column="status" property="status" />
+        <result column="source" property="source" />
+        <result column="shop_id" property="shopId" />
+        <result column="shop_name" property="shopName" />
+        <result column="order_num" property="orderNum" />
+        <result column="click_num" property="clickNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="operator_source" property="operatorSource" />
+         <result column="catName" property="catName" />
+    </resultMap>
+
+
+    <!--@Insert("INSERT INTO stuff_promotion_tmp (id,real_stuff_id, name,reserve_price,final_price,rebate_id,promotion_rate,promotion_url,url,img_url,cat_id,status,source,shop_id,shop_name,order_num,click_num,create_time,update_time)  VALUES (#{id},#{realStuffId},#{name},#{reservePrice},#{finalPrice},#{rebateId},#{promotionRate},#{promotionUrl},#{url},#{imgUrl},#{catId},#{status},#{source},#{shopId},#{shopName},#{orderNum},#{clickNum},#{createTime},#{updateTime}) ;")-->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO stuff_promotion_tmp_${name} (id,real_stuff_id, name,reserve_price,final_price,rebate_id,promotion_rate,android_promotion_url,ios_promotion_url,url,img_url,cat_id,status,source,shop_id,shop_name,order_num,click_num,create_time,update_time,operator_source,activities,cat_name)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.realStuffId},#{item.name},#{item.reservePrice},#{item.finalPrice},#{item.rebateId},#{item.promotionRate},#{item.androidPromotionUrl},#{item.iosPromotionUrl},#{item.url},#{item.imgUrl},#{item.catId},#{item.status},#{item.source},#{item.shopId},#{item.shopName},#{item.orderNum},#{item.clickNum},#{item.createTime},#{item.updateTime},#{item.operatorSource},#{item.activities},#{item.catName})
+        </foreach>
+    </insert>
+    <insert id="insertJdlmengBatch" parameterType="java.util.List">
+        INSERT INTO stuff_promotion_jdlmeng_tmp (id,real_stuff_id, name,reserve_price,final_price,rebate_id,promotion_rate,promotion_url,url,img_url,cat_id,status,source,shop_id,shop_name,order_num,click_num,create_time,update_time)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.realStuffId},#{item.name},#{item.reservePrice},#{item.finalPrice},#{item.rebateId},#{item.promotionRate},#{item.promotionUrl},#{item.url},#{item.imgUrl},#{item.catId},#{item.status},#{item.source},#{item.shopId},#{item.shopName},#{item.orderNum},#{item.clickNum},#{item.createTime},#{item.updateTime})
+        </foreach>
+    </insert>
+
+</mapper>
+
+

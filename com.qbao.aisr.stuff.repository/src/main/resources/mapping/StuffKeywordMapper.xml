@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qbao.aisr.stuff.repository.mybatis.dao.StuffKeywordDao">
+    <resultMap type="StuffKeyword" id="keywordMap">
+        <result column="id" property="id"/>
+        <result column="keyword" property="keyword"/>
+        <result column="source" property="source"/>
+        <result column="user_id" property="userId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="total" property="total"/>
+        <result column="status" property="status"/>
+    </resultMap>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qbao.aisr.stuff.repository.mybatis.dao.StuffWithdrawFlowDao">
+    <resultMap type="StuffWithdrawFlow" id="StuffWithdrawFlowMap">
+        <result column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="amt" property="amt" />
+        <result column="create_time" property="createTime" />
+        <result column="pay_status" property="payStatus" />
+        <result column="fail_msg" property="failMsg" />
+        <result column="pay_trade_no" property="payTradeNo" />
+        <result column="order_id" property="orderId" />
+        <result column="source" property="source" />
+        <result column="pay_source" property="paySource" />
+    </resultMap>
+</mapper>
+
+

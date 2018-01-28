@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+	<property name="LOG_LEVEL" value="info" />
+	<property name="MYBATIS_LOG_LEVEL" value="info" />
+	<property name="SPRING_LOG_LEVEL" value="info" />
+	<property name="JDBC_LOG_LEVEL" value = "info" />
+	<property name="LOG_HOME" value="./logs/" />
+	
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}stuff_core.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/alimama%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+	<!-- log4jdbc sql & jdbc logging -->
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="${JDBC_LOG_LEVEL}" />
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<logger name="jdbc.sqltiming" additivity="false">
+		<level value="${JDBC_LOG_LEVEL}" />
+		<appender-ref ref="FILE" />
+	</logger>
+	
+	<logger name="jdbc.audit" additivity="false">
+	<level value="${JDBC_LOG_LEVEL}" />
+	</logger>
+	
+	<logger name="jdbc.resultset" additivity="false">
+	<level value="${JDBC_LOG_LEVEL}" />
+	</logger>
+	
+	<logger name="jdbc.connection" additivity="false">
+		<level value="${JDBC_LOG_LEVEL}" />
+		<appender-ref ref="FILE" />
+	</logger>
+    <logger name="org.apache.ibatis" level="${MYBATIS_LOG_LEVEL}">
+        <appender-ref ref="FILE"/>
+    </logger> 
+ 
+
+    
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
